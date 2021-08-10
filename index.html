@@ -77,9 +77,11 @@ let turn = 0
 const turns = Array(200).fill().flatMap(() => shuffle(base))
 
 addEventListener('click', () => {
-  turns[turn%base.length].style.opacity = 0 
+  turns[turn%base.length].style.opacity = 0
   turn++
-  turns[turn%base.length].style.opacity = 1 
+  setTimeout(() => {
+    turns[turn%base.length].style.opacity = 1 
+  }, 250)
 })
 
 </script>
