@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Le Jeu</title>
+<style type="text/css">
+
+* { font-family: monospace }
+
+html {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  background: #333;
+}
+
+body {
+  height: 90vw;
+  width: 60vw;
+  border: 2vw black solid;
+  border-radius: 2vw;
+}
+
+body > div {
+  opacity: 0;
+  display: flex;
+  transition: opacity 0.5s;
+  position: fixed;
+  height: 90vw;
+  width: 60vw;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  font-size: 14vw;
+  font-weight: bold;
+  user-select: none;
+}
+
+#nemesis { background: radial-gradient(red, black) }
+
+#p1 { background: radial-gradient(yellow, white) }
+#p2 { background: radial-gradient(orange, white) }
+#p3 { background: radial-gradient(cyan, white) }
+#p4 { background: radial-gradient(purple, white) }
+#joker { background: radial-gradient(grey, white) }
+
+</style>
+</head>
+<body>
+  <div id="nemesis">Nemesis</div>
+  <div id="p1">1</div>
+  <div id="p2">2</div>
+  <div id="p3">3</div>
+  <div id="p4">4</div>
+  <div id="joker">Joker</div>
+<script type="module">
+const count = Number(new URL(location).searchParams.get('p')) || 3
+
+const shuffle = arr => arr
+  .map(v => [Math.random(),v])
+  .sort(([a],[b]) => a - b)
+  .map(s => s[1])
+
+const base = [nemesis, nemesis, p1, p2]
+if (count === 2) {
+  base.push(p1, p2)
+} else if (count === 3) {
+  base.push(p3, joker)
+} else {
+  base.push(p3, p4)
+}
+
+let turn = 0
+const turns = Array(200).fill().flatMap(() => shuffle(base))
+
+addEventListener('click', () => {
+  turns[turn%base.length].style.opacity = 0 
+  turn++
+  turns[turn%base.length].style.opacity = 1 
+})
+
+</script>
+</body>
+</html>
